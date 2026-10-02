@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadowverse Like Card Game</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+<body>
+
+    <!-- 接続オーバーレイ -->
+    <div id="lobby-overlay">
+        <div class="lobby-card">
+            <h1>SHADOWCARD</h1>
+            <p id="connection-status">対戦部屋に参加してください</p>
+            <button id="connect-btn" onclick="connect()">対戦開始</button>
+        </div>
+    </div>
+
+    <!-- 勝敗ポップアップ -->
+    <div id="result-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h1 id="result-title">VICTORY</h1>
+            <button onclick="location.reload()">ロビーへ戻る</button>
+        </div>
+    </div>
+
+    <!-- メインゲームバトルフィールド -->
+    <div id="battlefield" style="display: none;">
+        
+        <!-- ターン通知バナー -->
+        <div id="turn-banner" class="turn-banner">YOUR TURN</div>
+
+        <!-- 相手エリア -->
+        <div class="player-zone enemy-zone">
+            <div class="leader-container">
+                <div class="leader-portrait enemy-portrait">
+                    <div class="hp-badge" id="enemy-hp">20</div>
+                </div>
+            </div>
+            <div class="board-container" id="enemy-board"></div>
+            <div class="pp-container enemy-pp">
+                <span id="enemy-pp-text">PP 0/0</span>
+            </div>
+        </div>
+
+        <!-- 中央：操作 & ターン終了エリア -->
+        <div class="center-controls">
+            <button id="end-turn-btn" onclick="endTurn()">ターン<br>終了</button>
+        </div>
+
+        <!-- 自分エリア -->
+        <div class="player-zone my-zone">
+            <div class="pp-container my-pp">
+                <span id="my-pp-text">PP 1/1</span>
+            </div>
+            <div class="board-container" id="my-board"></div>
+            <div class="leader-container" id="my-leader" onclick="attackPlayerDirect()">
+                <div class="leader-portrait my-portrait">
+                    <div class="hp-badge" id="my-hp">20</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- あなたの手札 -->
+        <div class="hand-container" id="my-hand"></div>
+
+    </div>
+
+    <script src="/js/game.js"></script>
+</body>
+</html>

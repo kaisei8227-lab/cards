@@ -1,0 +1,277 @@
+* {
+    box-sizing: border-box;
+    user-select: none;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #0d0f12 url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1920') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Cinzel', 'Hiragino Mincho ProN', serif;
+    color: #fff;
+    overflow: hidden;
+    height: 100vh;
+}
+
+/* ロビー表示 */
+#lobby-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+}
+
+.lobby-card {
+    background: linear-gradient(135deg, #1e2430, #0f1319);
+    border: 2px solid #c5a059;
+    padding: 40px 60px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(197, 160, 89, 0.4);
+}
+
+.lobby-card h1 {
+    font-size: 2.5rem;
+    color: #f1d38a;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+}
+
+button {
+    background: linear-gradient(180deg, #d4af37, #8a6d1c);
+    border: 1px solid #ffe89c;
+    color: #fff;
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 20px;
+    cursor: pointer;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+    transition: all 0.2s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(212, 175, 55, 0.8);
+}
+
+/* バトルフィールド */
+#battlefield {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-between;
+    padding: 10px 0;
+    position: relative;
+}
+
+/* ターン通知 */
+.turn-banner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    font-weight: bold;
+    color: #ffd700;
+    text-shadow: 0 0 20px #ff0000;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s;
+    z-index: 50;
+}
+
+/* リーダーアイコン (丸形) */
+.leader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.leader-portrait {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    border: 4px solid #c5a059;
+    box-shadow: 0 0 15px rgba(0,0,0,0.8), inset 0 0 10px rgba(0,0,0,0.8);
+    position: relative;
+    background-size: cover;
+    background-position: center;
+}
+
+.enemy-portrait {
+    background-image: url('https://images.unsplash.com/photo-1566492031773-4f4e44671857?q=80&w=200');
+}
+
+.my-portrait {
+    background-image: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=200');
+}
+
+/* 体力バッジ */
+.hp-badge {
+    position: absolute;
+    bottom: -5px;
+    right: -5px;
+    background: radial-gradient(circle, #ff3333, #880000);
+    border: 2px solid #fff;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.2rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+/* 盤面エリア */
+.board-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    height: 140px;
+    width: 100%;
+}
+
+/* カードスタイル */
+.card {
+    width: 90px;
+    height: 125px;
+    background: linear-gradient(145deg, #2a2f3a, #15181e);
+    border: 2px solid #8a9ba8;
+    border-radius: 8px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 5px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.08);
+    z-index: 10;
+}
+
+/* 攻撃可能カードの発光 */
+.card.can-attack {
+    border-color: #00ffcc;
+    box-shadow: 0 0 15px #00ffcc;
+}
+
+/* 選択中カード */
+.card.selected {
+    border-color: #ffcc00;
+    box-shadow: 0 0 20px #ffcc00;
+}
+
+.card-cost {
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    background: radial-gradient(circle, #0088ff, #003388);
+    border: 1px solid #fff;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.card-name {
+    font-size: 0.75rem;
+    text-align: center;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #e2e8f0;
+}
+
+.card-stats {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.stat-atk {
+    background: #cc8800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.stat-hp {
+    background: #cc2222;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+/* ターン終了ボタン (丸型・右側配置) */
+.center-controls {
+    position: absolute;
+    right: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+#end-turn-btn {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #00aaff, #003366);
+    border: 4px solid #88ccff;
+    font-size: 1.1rem;
+    box-shadow: 0 0 20px rgba(0, 170, 255, 0.6);
+}
+
+#end-turn-btn:hover {
+    box-shadow: 0 0 30px rgba(0, 170, 255, 1);
+}
+
+/* PPテキスト */
+.pp-container {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #00e5ff;
+    font-weight: bold;
+    text-shadow: 0 0 10px #00e5ff;
+}
+
+/* 手札エリア */
+.hand-container {
+    display: flex;
+    justify-content: center;
+    gap: -10px;
+    height: 130px;
+    align-items: flex-end;
+}
+
+/* 勝敗モーダル */
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+.modal-content {
+    text-align: center;
+    color: #ffd700;
+}
